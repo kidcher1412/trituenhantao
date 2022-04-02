@@ -75,6 +75,7 @@ void Path(int s, int t)
 */
 int main()
 {
+	cout<<"nhap lan luot: so dinh, so canh, dinh bat dau, dinh ket thuc la lan luot cac cap so dinh so canh lien ke"<<endl;
 	
 	cin>>n>>m>>s>>t;
 	for(int i=0;i<m;i++)

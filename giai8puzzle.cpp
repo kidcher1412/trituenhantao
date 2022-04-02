@@ -162,7 +162,30 @@ void initPuzzle(){
 		}
 	}
 }
-
+		int soH(int puzzle[3][3]){
+			int sum = 0;
+			if(checker == 1){
+				if(puzzle[0][0] != 1) sum=sum+1;
+				if(puzzle[0][1] != 2) sum=sum+1;
+				if(puzzle[0][2] != 3) sum=sum+1;
+				if(puzzle[1][0] != 8) sum=sum+1;
+				if(puzzle[1][2] != 4) sum=sum+1;
+				if(puzzle[2][0] != 7) sum=sum+1;
+				if(puzzle[2][1] != 6) sum=sum+1;
+				if(puzzle[2][2] != 5) sum=sum+1;
+			}
+		else{
+				if(puzzle[0][1] != 1) sum++;
+				if(puzzle[0][2] != 2) sum++;
+				if(puzzle[1][0] != 3) sum++;
+				if(puzzle[1][1] != 4) sum++;
+				if(puzzle[1][2] != 5) sum++;
+				if(puzzle[2][0] != 6) sum++;
+				if(puzzle[2][1] != 7) sum++;
+				if(puzzle[2][2] != 8) sum++;
+			}
+			return sum;
+		}
 void prin(){
 	for(int i=0;i<=2;i++){
 		for(int j=0;j<=2;j++){
@@ -216,7 +239,7 @@ int countStart(){
 	}
 	return sum;
 }
-
+// 2 8 3 1 6 4 7 0 5
 int main(){
 	int step = 0 ;
 	ll numOfNode = 0;
@@ -228,8 +251,13 @@ int main(){
 	vector<node> vt;
 	vt.push_back(nd);
 	checker = countStart() %2;
+	int coster=0;
 	cout << "Trang thai ban dau : " << endl;
+	cout<<"g= "<<coster<<endl;
+	cout<<"h ="<<soH(puzzle)<<endl;
+	cout<<"f= "<<coster+soH(puzzle)<<endl;
 	prin();
+	cout<<"===================================="<<endl;
 	cout << endl;
 	while(!check && vt.size() != 0){
 		vector<node> open;
@@ -280,23 +308,40 @@ int main(){
 		cout << "Thuat toan that bai , khong tim duoc dich";
 		return 0;
 	}
-	for(int i=0;i<way.length();i++){
+	coster++;
+	for(int i=0;i<way.length();i++,coster++){
 		if(way[i] == 'l'){
 			moveLeft();
+			cout<<"STEP "<<i+1<<"-------------------------------------------"<<endl;
+			cout << "di chuyen sang trai" << endl;
+			cout<<"g= "<<coster<<endl;
+			cout<<"h ="<<soH(puzzle)<<endl;
+			cout<<"f= "<<coster+soH(puzzle)<<endl<<endl;
 			prin();
-			cout << "di chuyen sang trai" << endl << endl;
 		}else if(way[i] == 'r'){
 			moveRight();
+			cout<<"STEP "<<i+1<<"-------------------------------------------"<<endl;
+			cout << "di chuyen sang phai" << endl;
+			cout<<"g= "<<coster<<endl;
+			cout<<"h ="<<soH(puzzle)<<endl;
+			cout<<"f= "<<coster+soH(puzzle)<<endl<<endl;
 			prin();
-			cout << "di chuyen sang phai" << endl << endl;
 		}else if(way[i] == 'u'){
 			moveUp();
+			cout<<"STEP "<<i+1<<"-------------------------------------------"<<endl;
+			cout << "di chuyen len tren" << endl;
+			cout<<"g= "<<coster<<endl;
+			cout<<"h ="<<soH(puzzle)<<endl;
+			cout<<"f= "<<coster+soH(puzzle)<<endl<<endl;
 			prin();
-			cout << "di chuyen len tren" << endl << endl;
 		}else if(way[i] == 'd'){
 			moveDown();
+			cout<<"STEP "<<i+1<<"-------------------------------------------"<<endl;
+			cout << "di chuyen xuong duoi" << endl;
+			cout<<"g= "<<coster<<endl;
+			cout<<"h ="<<soH(puzzle)<<endl;
+			cout<<"f= "<<coster+soH(puzzle)<<endl<<endl;
 			prin();
-			cout << "di chuyen xuong duoi" << endl << endl;
 		}
 	}
 	cout << "Thuat toan AKT" << endl;
