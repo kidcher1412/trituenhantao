@@ -36,12 +36,13 @@ void bfs(int u)
 		}
 	}
 }
+
 void Path(int s, int t)
 {
 	memset(visited,false,sizeof(visited));
 	memset(parent,0,sizeof(parent));
-	bfs(s);  //nhanh nhat
-	//dfs(s);		//ngan nhat
+	bfs(s);
+	//dfs(s);
 	if(!visited[t])
 	{
 		cout<<"khong co duong di!!!";

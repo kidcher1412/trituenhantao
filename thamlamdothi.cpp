@@ -22,9 +22,7 @@ int minhang(int a[100][100], int n,int row)
         for(j=0; j<n; j++)
             if(checkvisited[j]==0)
 			if(a[row][j]<min)
-            {
                 min=a[row][j];
-            }
     return min;
 }
 int main()

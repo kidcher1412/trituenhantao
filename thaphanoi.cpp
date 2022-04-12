@@ -1,10 +1,6 @@
 #include<iostream>
 using namespace std;
  
-#define YTOP 4
-#define YBOT 21
-#define TIME 10
-#define colorBG 0
 #define MAX 20
 
 //Khai bao Prototype
@@ -28,9 +24,9 @@ int heuristic ()
 	int diasai=0,diadung=0;
 	for (int i=1;i<=n;i++,t--)
 	{
-		if (thap[2][i]!=t&&thap[2][i]!=0)
+		if (thap[1][i]!=t&&thap[1][i]!=0)
 			diasai++;
-			if(thap[2][i]==t)
+			if(thap[1][i]==t)
 			diadung++;
 	}
 	h=n+diasai-diadung;
@@ -68,10 +64,22 @@ void ThapHN ()
 						if (h<hmin)
 						{
 							hmin=h;
+						}
+						hoantra(cocdi,cocden);
+					}
+		for (int cocdi=0;cocdi<3;cocdi++)
+			if (cocdi!=cocvuaden)
+				for (int cocden=0;cocden<3;cocden++)
+					if ((cocdi!=cocden)&&thap[cocdi][top[cocdi]]<thap[cocden][top[cocden]])
+					{
+						thap[cocden][++top[cocden]]=thap[cocdi][top[cocdi]--];
+						int h=heuristic();
+						if (h==hmin)
+						{
 							luucocdi=cocdi;
 							luucocden=cocden;
-							cout<<"di chuyen tu coc "<<cocdi<<" sang coc "<<cocden<<endl;
-							cout<<hmin;
+							cout<<"di chuyen tu coc "<<cocdi+1<<" sang coc "<<cocden+1<<endl;
+							cout<<"h= "<<hmin<<endl;
 						}
 						hoantra(cocdi,cocden);
 					}

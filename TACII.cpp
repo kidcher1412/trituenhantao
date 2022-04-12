@@ -344,9 +344,6 @@ int main(){
 			prin();
 		}
 	}
-	cout << "Thuat toan AKT" << endl;
-/*	cout << "So buoc di = " << way.length() << endl;
-	cout << "So phep toan da thuc hien = " << numOfNode << endl;
-	cout << "Thoi gian tinh toan = " << float( clock () - begin_time ) 
-	*/	return 0;
+	cout << "tim cach giai TACII da hoan thanh!!!" << endl;
+return 0;
 }
