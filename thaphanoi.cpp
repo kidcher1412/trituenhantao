@@ -6,7 +6,7 @@ using namespace std;
 //Khai bao Prototype
 int thap[3][MAX];
 int top[3];
-int n;
+int n,k;
 
 
 void khoidong ()
@@ -24,9 +24,9 @@ int heuristic ()
 	int diasai=0,diadung=0;
 	for (int i=1;i<=n;i++,t--)
 	{
-		if (thap[1][i]!=t&&thap[1][i]!=0)
+		if (thap[k-1][i]!=t&&thap[k-1][i]!=0)
 			diasai++;
-			if(thap[1][i]==t)
+			if(thap[k-1][i]==t)
 			diadung++;
 	}
 	h=n+diasai-diadung;
@@ -50,8 +50,11 @@ void ThapHN ()
 {
 	int hmin,luucocdi,luucocden;
 	int cocvuaden=-1;
+	int g=0,h=heuristic();
 	khoidong();
-	do
+	if(h==0) cout<<"da hoan thanh !!!"<<endl;
+	else{
+	while(hmin!=0)
 	{
 		hmin=2*MAX;
 		for (int cocdi=0;cocdi<3;cocdi++)
@@ -60,7 +63,7 @@ void ThapHN ()
 					if ((cocdi!=cocden)&&thap[cocdi][top[cocdi]]<thap[cocden][top[cocden]])
 					{
 						thap[cocden][++top[cocden]]=thap[cocdi][top[cocdi]--];
-						int h=heuristic();
+						 h=heuristic();
 						if (h<hmin)
 						{
 							hmin=h;
@@ -78,19 +81,25 @@ void ThapHN ()
 						{
 							luucocdi=cocdi;
 							luucocden=cocden;
+							cout<<"------------------------------------"<<endl;
 							cout<<"di chuyen tu coc "<<cocdi+1<<" sang coc "<<cocden+1<<endl;
+							cout<<"g= "<<g<<endl;
 							cout<<"h= "<<hmin<<endl;
+							cout<<"f= "<<g+h<<endl;
+							g++;
 						}
 						hoantra(cocdi,cocden);
 					}
 		luuthap(luucocdi,luucocden);
 		cocvuaden=luucocden;
-	} 	while(hmin!=0);
+	}}
+	cout<<"da tim duoc cach giai!!!"<<endl;
 }
 int main()
 {
 
 	cout<<"Nhap so dia:";
 	cin>>n;
+	cout<<"nhap so coc muon di chuyen dia den [1,2,3] "; cin>>k;
 	ThapHN();
 }
