@@ -8,7 +8,7 @@ enum facing {
 	LEFT , RIGHT , UP , DOWN , STAY
 };
 
-int puzzle[3][3] , posX , posY , checker , cost;
+int puzzle[3][3] , posX , posY , cost;
 
 class node{
 	public :
@@ -44,7 +44,6 @@ class node{
 		
 		int herStic(){
 			int sum = 0;
-			if(checker == 1){
 				if(arr[0][0] != 1) sum++;
 				if(arr[0][1] != 2) sum++;
 				if(arr[0][2] != 3) sum++;
@@ -53,16 +52,6 @@ class node{
 				if(arr[2][0] != 7) sum++;
 				if(arr[2][1] != 6) sum++;
 				if(arr[2][2] != 5) sum++;
-			}else{
-				if(arr[0][1] != 1) sum++;
-				if(arr[0][2] != 2) sum++;
-				if(arr[1][0] != 3) sum++;
-				if(arr[1][1] != 4) sum++;
-				if(arr[1][2] != 5) sum++;
-				if(arr[2][0] != 6) sum++;
-				if(arr[2][1] != 7) sum++;
-				if(arr[2][2] != 8) sum++;
-			}
 			return sum + f;
 		}
 		
@@ -96,18 +85,10 @@ class node{
 		}
 		
 		bool checkFinish(){
-			if(checker == 1){
 				for(int i=0;i<=2;i++){
 					if(arr[0][i] != i+1 || arr[2][i] != 7-i) return false;;
 				}
 				return arr[1][0] != 8 || arr[1][2] != 4 ? false : true;
-			}else{
-				for(int i=0;i<=2;i++){
-					if(arr[0][i] != i || arr[1][i] != i+3 || arr[2][i] != i+6) return false;
-				}
-				return true;
-			}
-			
 		}
 };
 
@@ -129,13 +110,18 @@ void moveDown(){
 }
 
 void initPuzzle(){
-	cout << "Nhap cac gia tri cho puzzle : ";
+/*	cout << "Nhap cac gia tri cho puzzle : ";
 	cin >> puzzle[0][0] >> puzzle[0][1] >> puzzle[0][2];
 	cin >> puzzle[1][0] >> puzzle[1][1] >> puzzle[1][2];
 	cin >> puzzle[2][0] >> puzzle[2][1] >> puzzle[2][2];
 	cout << "Nhap chi phi toi da cua thuat toan = ";
-	cin >> cost;
-	
+	cin >> cost; */
+	fstream inp("TACII.inp");
+	inp>>cost;
+	for (int i = 0; i < 3; i++)
+	for (int j = 0; j < 3; j++)
+		inp>>puzzle[i][j];
+	inp.close();
 	bool checked = true;
 	int sum = 0;
 	for(int i=0;i<=2;i++){
@@ -164,7 +150,7 @@ void initPuzzle(){
 }
 		int soH(int puzzle[3][3]){
 			int sum = 0;
-			if(checker == 1){
+
 				if(puzzle[0][0] != 1) sum=sum+1;
 				if(puzzle[0][1] != 2) sum=sum+1;
 				if(puzzle[0][2] != 3) sum=sum+1;
@@ -173,17 +159,6 @@ void initPuzzle(){
 				if(puzzle[2][0] != 7) sum=sum+1;
 				if(puzzle[2][1] != 6) sum=sum+1;
 				if(puzzle[2][2] != 5) sum=sum+1;
-			}
-		else{
-				if(puzzle[0][1] != 1) sum++;
-				if(puzzle[0][2] != 2) sum++;
-				if(puzzle[1][0] != 3) sum++;
-				if(puzzle[1][1] != 4) sum++;
-				if(puzzle[1][2] != 5) sum++;
-				if(puzzle[2][0] != 6) sum++;
-				if(puzzle[2][1] != 7) sum++;
-				if(puzzle[2][2] != 8) sum++;
-			}
 			return sum;
 		}
 void prin(){
@@ -220,25 +195,6 @@ bool checkFinish(){
 	if(counter2 == 8) return true;
 	return false;
 }
-
-int countStart(){
-	int sum = 0;
-	for(int q=0;q<=8;q++){
-		int row = q/3;
-		int col = q%3;
-		int counter = puzzle[row][col];
-		for(int i=0;i<=2;i++){
-			for(int j=0;j<=2;j++){
-				if( (row < i && puzzle[i][j] < counter && puzzle[i][j] != 0 )  ){
-					sum++;
-				}else if(row == i && col < j && puzzle[i][j] < counter && puzzle[i][j] != 0){
-					sum++;
-				}
-			}
-		}
-	}
-	return sum;
-}
 // 2 8 3 1 6 4 7 0 5
 int main(){
 	int step = 0 ;
@@ -250,7 +206,6 @@ int main(){
 	node nd(puzzle , "" , STAY , posX , posY , 0);
 	vector<node> vt;
 	vt.push_back(nd);
-	checker = countStart() %2;
 	int coster=0;
 	cout << "Trang thai ban dau : " << endl;
 	cout<<"g= "<<coster<<endl;
