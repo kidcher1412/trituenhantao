@@ -5,29 +5,46 @@ using namespace std;
 
 int a[maxn][maxn],h[maxn],F[maxn],n,m,s,t;
 int f[maxn],parent[maxn],visited[maxn];
-int struc[maxn][maxn];
+int struc[maxn][maxn],posX,posY;
 void strucs()
 { int temp=1;
 	for(int i=1;i<=n/3;i++)
 		for(int j=1;j<=n/3;j++)
 			{
-			struc[j][i]=temp;
+			struc[i][j]=temp;
 			temp++;
 			}
 }
+
 void browser(int k)
 {
 	for (int i = 1; i <= n; i++)
 		for (int j = 0; j <=n; j++)
 			if(k==struc[i][j]) cout<<"("<<i-1<<";"<<j-1<<")";
-			}
+}
+void checkpoint(int pos)
+{
+	for(int i=1;i<=n/3;i++)
+	for(int j=1;j<=n/3;j++)
+	if(pos==struc[i][j])
+	{
+		posX=j;
+		posY=i;
+	}
+}
 void read()
 {
+
 	fstream inp("giaidothi.inp");
 	inp>>n>>m>>s>>t;
+	strucs();
+	checkpoint(t);
+	int x=posX;
+	int y=posY;
 	for(int i=1; i<=n;i++)
     {
-        inp>>h[i];
+		checkpoint(i);
+		h[i]=x+y-posX-posY;
 	for(int j=1; j<=n;j++) 
     
         a[i][j]=-1;
@@ -106,10 +123,9 @@ void ketqua()
 }
 int main()
 {
+
 	read();
-	strucs();
 	Path();
-	ketqua();
+	ketqua(); 
 	return 0;
-	
 }

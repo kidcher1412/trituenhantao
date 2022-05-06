@@ -2,13 +2,11 @@
 using namespace std;
  
 #define MAX 20
-
 //Khai bao Prototype
 int thap[3][MAX];
-int top[3];
+int top[MAX];
 int n,k;
-
-
+int checker;
 void khoidong ()
 {
 	for (int i=0;i<3;i++)
@@ -56,7 +54,8 @@ void ThapHN ()
 	else{
 	while(hmin!=0)
 	{
-		hmin=2*MAX;
+		bool checkout=false;
+		hmin=5*MAX;
 		for (int cocdi=0;cocdi<3;cocdi++)
 			if (cocdi!=cocvuaden)
 				for (int cocden=0;cocden<3;cocden++)
@@ -66,18 +65,21 @@ void ThapHN ()
 						 h=heuristic();
 						if (h<hmin)
 						{
+							cout<<"h min cu : "<<hmin;
 							hmin=h;
+							cout<<"h min moi : "<<hmin<<endl;
 						}
 						hoantra(cocdi,cocden);
 					}
-		for (int cocdi=0;cocdi<3;cocdi++)
+					int linking=0;
+		for (int cocdi=2;cocdi>=0;cocdi--)
 			if (cocdi!=cocvuaden)
-				for (int cocden=0;cocden<3;cocden++)
+				for (int cocden=2;cocden>=0;cocden--)
 					if ((cocdi!=cocden)&&thap[cocdi][top[cocdi]]<thap[cocden][top[cocden]])
 					{
 						thap[cocden][++top[cocden]]=thap[cocdi][top[cocdi]--];
 						int h=heuristic();
-						if (h==hmin)
+						if (h==hmin&&!checkout)
 						{
 							luucocdi=cocdi;
 							luucocden=cocden;
@@ -87,19 +89,24 @@ void ThapHN ()
 							cout<<"h= "<<hmin<<endl;
 							cout<<"f= "<<g+h<<endl;
 							g++;
+							checkout==false;
 						}
 						hoantra(cocdi,cocden);
 					}
-		luuthap(luucocdi,luucocden);
 		cocvuaden=luucocden;
+		luuthap(luucocdi,luucocden);
 	}}
 	cout<<"da tim duoc cach giai!!!"<<endl;
 }
 int main()
 {
-
+	
 	cout<<"Nhap so dia:";
 	cin>>n;
 	cout<<"nhap so coc muon di chuyen dia den [1,2,3] "; cin>>k;
+	if (k==2){
+		checker=0;
+	}
+	else checker=1;
 	ThapHN();
 }

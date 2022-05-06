@@ -1,30 +1,30 @@
 #include<bits/stdc++.h>
-#define MAXN 25
+
 typedef long long int ll;
 
 using namespace std;
+
 enum facing {
 	LEFT , RIGHT , UP , DOWN , STAY
 };
 
-int puzzle[MAXN][MAXN],taget[MAXN][MAXN] , posX , posY , cost,n;
+int puzzle[3][3] , posX , posY , cost;
 
 class node{
 	public :
-		int arr[MAXN][MAXN],end_arr[MAXN][MAXN] , x , y , f;
+		int arr[3][3] , x , y , f;
 		string way;
 		facing canFace;
 		
-		node(int a[MAXN][MAXN],int b[MAXN][MAXN] , string way , facing canFace , int x , int y , int f){
+		node(int a[3][3] , string way , facing canFace , int x , int y , int f){
 			this->f = f;
 			this->way = way;
 			this->canFace = canFace;
 			this->x = x;
 			this->y = y;
-			for(int i=0;i<n;i++){
-				for(int j=0;j<n;j++){
+			for(int i=0;i<=2;i++){
+				for(int j=0;j<=2;j++){
 					arr[i][j] = a[i][j];
-					end_arr[i][j] = b[i][j];
 				}
 			}
 		}
@@ -44,11 +44,14 @@ class node{
 		
 		int herStic(){
 			int sum = 0;
-			for(int i=0;i<n;i++){
-				for(int j=0;j<n;j++){
-					if(arr[i][j]!=end_arr[i][j]) sum++;
-				}
-			}
+				if(arr[0][0] != 1) sum++;
+				if(arr[0][1] != 2) sum++;
+				if(arr[0][2] != 3) sum++;
+				if(arr[1][0] != 8) sum++;
+				if(arr[1][2] != 4) sum++;
+				if(arr[2][0] != 7) sum++;
+				if(arr[2][1] != 6) sum++;
+				if(arr[2][2] != 5) sum++;
 			return sum + f;
 		}
 		
@@ -82,15 +85,11 @@ class node{
 		}
 		
 bool checkFinish(){
-			for(int i=0;i<n;i++){
-				for(int j=0;j<n;j++){
-				if(arr[i][j] != end_arr[i][j])
-					return false;
+				for(int i=0;i<=2;i++){
+					if(arr[0][i] != i+1 || arr[2][i] != 7-i) return false;
+				}
+				return arr[1][0] != 8 || arr[1][2] != 4 ? false : true;
 		}
-	
-}
-return true;
-}
 };
 
 void moveLeft(){
@@ -111,27 +110,18 @@ void moveDown(){
 }
 
 void initPuzzle(){
-	cout<<"nhap chi so n cho puzzle va taget: "; 
-	cin>>n;
-	cout << "Nhap cac gia tri cho puzzle : ";
-	 for (int i = 0; i < n; i++)
-	 for (int j = 0; j < n; j++)
-	 	cin>>puzzle[i][j];
-
-
-	cout << "Nhap cac gia tri cho taget : ";
-	 for (int i = 0; i < n; i++)
-	 for (int j = 0; j < n; j++)
-	 	cin>>taget[i][j];	
+/*	cout << "Nhap cac gia tri cho puzzle : ";
+	cin >> puzzle[0][0] >> puzzle[0][1] >> puzzle[0][2];
+	cin >> puzzle[1][0] >> puzzle[1][1] >> puzzle[1][2];
+	cin >> puzzle[2][0] >> puzzle[2][1] >> puzzle[2][2];
 	cout << "Nhap chi phi toi da cua thuat toan = ";
-	cin >> cost; 
-	
-//	fstream inp("TACII.inp");
-//	inp>>cost;
-//	for (int i = 0; i < 3; i++)
-//	for (int j = 0; j < 3; j++)
-//		inp>>puzzle[i][j];
-//	inp.close();
+	cin >> cost; */
+	fstream inp("TACII.inp");
+	inp>>cost;
+	for (int i = 0; i < 3; i++)
+	for (int j = 0; j < 3; j++)
+		inp>>puzzle[i][j];
+	inp.close();
 	bool checked = true;
 	int sum = 0;
 	for(int i=0;i<=2;i++){
@@ -143,9 +133,13 @@ void initPuzzle(){
 			}
 		}
 	}
+	if(sum != 36 || checked == false){
+		cout << "Nhap sai du lieu vui long nhap lai" << endl;
+		return initPuzzle();
+	}
 	
-	for(int i=0;i<n;i++){
-		for(int j=0;j<n;j++){
+	for(int i=0;i<=2;i++){
+		for(int j=0;j<=2;j++){
 			if(puzzle[i][j] == 0){
 				posX = i;
 				posY = j;
@@ -154,19 +148,22 @@ void initPuzzle(){
 		}
 	}
 }
-int soH(int puzzle[MAXN][MAXN]){
+int soH(int puzzle[3][3]){
 			int sum = 0;
-			for(int i=0;i<n;i++){
-				for(int j=0;j<n;j++){
-				if(puzzle[i][j] != taget[i][j])
-					sum++;
-				}
-			}
+
+				if(puzzle[0][0] != 1) sum=sum+1;
+				if(puzzle[0][1] != 2) sum=sum+1;
+				if(puzzle[0][2] != 3) sum=sum+1;
+				if(puzzle[1][0] != 8) sum=sum+1;
+				if(puzzle[1][2] != 4) sum=sum+1;
+				if(puzzle[2][0] != 7) sum=sum+1;
+				if(puzzle[2][1] != 6) sum=sum+1;
+				if(puzzle[2][2] != 5) sum=sum+1;
 			return sum;
 		}
 void prin(){
-	for(int i=0;i<n;i++){
-		for(int j=0;j<n;j++){
+	for(int i=0;i<=2;i++){
+		for(int j=0;j<=2;j++){
 			cout << puzzle[i][j] << " ";
 		}
 		cout << endl;
@@ -174,33 +171,38 @@ void prin(){
 }
 		
 bool checkFinish(){
-	int sum=0;
-for(int i=0;i<n;i++){
-		for(int j=0;j<n;j++){
-				if(puzzle[i][j] == taget[i][j])
-					sum=sum+1;
-}}
-	if(sum<n*n) return true;
+	int counter1 = 0, counter2 = 0;
+	for(int i=0;i<=2;i++){
+		if(puzzle[0][i] == i+1) counter1++;
+	}
+	
+	for(int i=0;i<=2;i++){
+		if(puzzle[2][i] == 7-i) counter1++;
+	}
+	if(puzzle[1][0] == 8){
+		counter1++;
+	} 
+	if(puzzle[1][2] == 4) {
+		counter1++;
+	}
+	if(counter1 == 8) return true;
+		
+	for(int i=0;i<=2;i++){
+		if(puzzle[0][i] == i) counter2++;
+		if(puzzle[1][i] == i+3) counter2++;
+		if(puzzle[2][i] == i+6) counter2++;
+	}
+	if(counter2 == 8) return true;
 	return false;
 }
-int checkFinish1(){
-	int sum=0;
-for(int i=0;i<n;i++){
-		for(int j=0;j<n;j++){
-				if(puzzle[i][j] == taget[i][j])
-					sum=sum+1;
-}}
-	return sum;
-}
 // 2 8 3 1 6 4 7 0 5
-// 1 2 3 8 0 4 7 6 5
 int main(){
 	int step = 0 ;
 	bool check = checkFinish();
 	initPuzzle();
 //	const clock_t begin_time = clock();
 	string way = "";
-	node nd(puzzle,taget , "" , STAY , posX , posY , 0);
+	node nd(puzzle , "" , STAY , posX , posY , 0);
 	vector<node> vt;
 	vt.push_back(nd);
 	int coster=0;
@@ -210,6 +212,7 @@ int main(){
 	cout<<"f= "<<coster+soH(puzzle)<<endl;
 	prin();
 	cout<<"===================================="<<endl;
+	cout<<"trinh test cay "<<check;
 	cout << endl;
 	while(!check && vt.size() != 0){
 		vector<node> open;
@@ -253,6 +256,7 @@ int main(){
 		for(int i=0;i<open.size();i++){
 			if(open.at(i).herStic() == open.at(open.size()-1).herStic())
 			vt.push_back(open.at(i));
+			cout<<"trinh test cay ham H="<<open.at(i).herStic()<<endl;
 			
 		}
 	}
